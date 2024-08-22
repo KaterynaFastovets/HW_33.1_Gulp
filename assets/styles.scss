@@ -1,0 +1,56 @@
+.header {
+  width: 100%;
+  height: 28.4%;
+  padding-left: 20.8%;
+  background: rgb(243, 214, 176);
+  box-sizing: border-box;
+}
+
+.menu {
+  display: flex;
+  flex-flow: row wrap;
+  font-weight: 500;
+  font-size: 16px;
+  gap: 50px;
+  list-style: none;
+  padding-left: 0%;
+  padding-top: 3.2%;
+  color: black;
+}
+
+#item {
+  color: violet;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 164%;
+  margin-top: 6.6%;
+  color: black;
+}
+
+.list {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 164%;
+  margin-top: 2.4%;
+  margin-right: 68%;
+  color: black;
+  box-sizing: border-box;
+}
+
+.button-write-me {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 164%;
+  width: 225px;
+  height: 65px;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-top: 2.6%;
+  margin-bottom: 5.7%;
+  background: rgb(247, 203, 146);
+  color: black;
+  cursor: pointer;
+}
