@@ -1,94 +1,71 @@
-const {  series,  src, dest,watch} = require('gulp')
-const sass = require('gulp-sass')(require('sass'))
-const browserSync = require('browser-sync').create();
-const cssnano = require('cssnano')
-const rename = require('gulp-rename')
-const postcss = require('gulp-postcss')
-const plugins = [cssnano({ preset: 'default' })]
-const csscomb = require('gulp-csscomb')
-const autoprefixer = require('autoprefixer');
-const mqpacker = require('css-mqpacker')
-const sortCSSmq = require('sort-css-media-queries')
-const pug = require('gulp-pug');
+const { series, src, dest, watch } = require("gulp");
+const sass = require("gulp-sass")(require("sass"));
+const browserSync = require("browser-sync").create();
+const cssnano = require("cssnano");
+const rename = require("gulp-rename");
+const postcss = require("gulp-postcss");
+const autoprefixer = require("autoprefixer");
+const csscomb = require("gulp-csscomb");
+const mqpacker = require("css-mqpacker");
+const sortCSSmq = require("sort-css-media-queries");
+const pug = require("gulp-pug");
+const uglify = require("gulp-uglify");
 
-const PATH = {
-  scssRootFile: './assets/styles.scss',
-  scssAllFiles: './assets/**/*.scss',
-  scssFolder: './assets/scss/',
-  cssFolder: './assets/css/',
-  htmlFolder: './',
-  htmlAllFiles: './*.html',
-  jsFolder: './assets/js/',
-  jsAllFiles: './*.js',
-  pugAllFiles: './*.pug',
-  pugFolder: './templates/',
-  pugRootFile: './index.pug'
-}
 
-const PLUGINS = [
+const plugins = [
+  cssnano({ preset: "default" }),
   autoprefixer({
-    overrideBrowserslist: ['last 5 versions'],
-    cascade: true
+    overrideBrowserslist: ["last 2 versions"],
+    cascade: true,
   }),
-  mqpacker({ sort: sortCSSmq })
-]
+  mqpacker({ sort: sortCSSmq }),
+];
 
 function scss() {
-  return src(PATH.scssRootFile)
-    .pipe(sass().on('error', sass.logError))
-    .pipe(postcss(PLUGINS))
-    .pipe(dest(PATH.cssFolder))
+  return src("./assets/styles.scss")
+    .pipe(sass().on("error", sass.logError))
+    .pipe(dest("./assets/css"))
+    .pipe(browserSync.stream())
+    .pipe(postcss(plugins))
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(dest("./assets/css"));
 }
-
-
-
-function scssMin () {
-  const pluginsExtended = PLUGINS.concat([cssnano({
-    preset: 'default'
-})]);
-  return src(PATH.scssRootFile)
-  .pipe(sass().on('error', sass.logError))
-  .pipe(postcss(plugins))
-  .pipe(postcss(pluginsExtended))
-  .pipe(rename({ suffix: '.min' }))
-  .pipe(dest(PATH.cssFolder))
-}
-  
 
 function compilePug() {
-  return src(PATH.pugRootFile)
+  return src("./index.pug")
     .pipe(pug({ pretty: true }))
-    .pipe(dest(PATH.pugFolder));
+    .pipe(dest("./templates/"));
 }
 
-// function uglify() {
-//   return src ("./index.js").pipe (uglify())
-//   .pipe (dest("./public/"));
-// }
+function comb() {
+  return src("./assets/*.styles.scss")
+    .pipe(csscomb("./.csscomb.json"))
+    .pipe(dest("./assets/styles.scss"));
+}
 
-function syncInit () {
+function uglifyFile() {
+  return src("./index.js")
+  .pipe(uglify())
+  .pipe(dest("./public"));
+}
+
+function watchInit() {
   browserSync.init({
-      server: {
-          baseDir: PATH.htmlFolder
-      }
+    server: {
+      baseDir: "./",
+    },
   });
 }
 
 async function sync() {
-  browserSync.reload()
+  browserSync.reload();
 }
 
 function watchFiles() {
-  syncInit()
-  watch(PATH.scssAllFiles, scss)
-  watch(PATH.htmlAllFiles, sync)
-  watch(PATH.jsAllFiles, sync)
+  watchInit();
+  watch("./assets/**/*.scss", scss);
+  watch("./*.html", sync);
+  watch("./*.js", sync);
 }
 
-function comb() {
-    return src('./assets/*.styles.scss')
-      .pipe(csscomb('./.csscomb.json'))
-      .pipe(dest('./assets/styles.scss'))
-  }
-
-exports.default= series(scss,comb,scssMin,compilePug,watchFiles) 
+exports.default = series(scss, compilePug, comb, uglifyFile, watchFiles);

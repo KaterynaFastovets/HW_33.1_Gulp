@@ -1,8 +1,14 @@
+$background6: #75d675;
+$background: rgb(201, 29, 149);
+$color: #e7962c;
+$color1: #d2e9d2;
+
+
 .header {
   width: 100%;
   height: 28.4%;
   padding-left: 20.8%;
-  background: rgb(243, 214, 176);
+  background: $background6;
   box-sizing: border-box;
 }
 
@@ -15,11 +21,11 @@
   list-style: none;
   padding-left: 0%;
   padding-top: 3.2%;
-  color: black;
+  color: $color1;
 }
 
 #item {
-  color: violet;
+  color: $color;
 }
 
 .title {
@@ -27,7 +33,7 @@
   font-size: 48px;
   line-height: 164%;
   margin-top: 6.6%;
-  color: black;
+  color: $color1;
 }
 
 .list {
@@ -36,7 +42,7 @@
   line-height: 164%;
   margin-top: 2.4%;
   margin-right: 68%;
-  color: black;
+  color: $color1;
   box-sizing: border-box;
 }
 
@@ -50,7 +56,7 @@
   text-align: center;
   margin-top: 2.6%;
   margin-bottom: 5.7%;
-  background: rgb(247, 203, 146);
-  color: black;
+  background: $background;
+  color: $color1;
   cursor: pointer;
 }

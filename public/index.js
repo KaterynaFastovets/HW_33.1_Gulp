@@ -1,0 +1,1 @@
+let button=document.querySelector(".button-write-me "),color="blue";function change(o){o.style.background=color}function sum(o,e){return o+e}console.log(sum(10,12));
