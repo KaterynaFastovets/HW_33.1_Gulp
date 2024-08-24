@@ -11,7 +11,6 @@ const sortCSSmq = require("sort-css-media-queries");
 const pug = require("gulp-pug");
 const uglify = require("gulp-uglify");
 
-
 const plugins = [
   cssnano({ preset: "default" }),
   autoprefixer({
